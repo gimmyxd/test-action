@@ -17,7 +17,7 @@ jobs:
       uses: opcr-io/policy-login-action@v1
       with:
         username: ${{ secrets.USERNAME }}
-        password: ${{ fsecrets.PASSWORD }}
+        password: ${{ secrets.PASSWORD }}
 
     # - name: Policy Build
     #   id: policy-build
