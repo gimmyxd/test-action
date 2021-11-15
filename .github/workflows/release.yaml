@@ -13,33 +13,37 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Get secrets
-      id: write_file
-      uses: timheuer/base64-to-file@v1
-      with:
-        fileName: 'secrets.json'
-        encodedString: ${{ secrets.PUSH_KEY }}
+    - name: test
+      run: |
+        echo ${{ fromJSON(secrets.SECRET_KEY.username) }}
 
-    - name: get password
-      id: password
-      uses: notiz-dev/github-action-json-property@release
-      with:
-        path: ${{ steps.write_file.outputs.filePath }}
-        prop_path: 'password'
+    # - name: Get secrets
+    #   id: write_file
+    #   uses: timheuer/base64-to-file@v1
+    #   with:
+    #     fileName: 'secrets.json'
+    #     encodedString: ${{ secrets.PUSH_KEY }}
 
-    - name: get username
-      id: username
-      uses: notiz-dev/github-action-json-property@release
-      with:
-        path: ${{ steps.write_file.outputs.filePath }}
-        prop_path: 'username'
+    # - name: get password
+    #   id: password
+    #   uses: notiz-dev/github-action-json-property@release
+    #   with:
+    #     path: ${{ steps.write_file.outputs.filePath }}
+    #     prop_path: 'password'
 
-    - name: Policy Login
-      id: policy-login
-      uses: opcr-io/policy-login-action@v1
-      with:
-        username: ${{steps.username.outputs.prop}}
-        password: ${{steps.password.outputs.prop}}
+    # - name: get username
+    #   id: username
+    #   uses: notiz-dev/github-action-json-property@release
+    #   with:
+    #     path: ${{ steps.write_file.outputs.filePath }}
+    #     prop_path: 'username'
+
+    # - name: Policy Login
+    #   id: policy-login
+    #   uses: opcr-io/policy-login-action@v1
+    #   with:
+    #     username: ${{steps.username.outputs.prop}}
+    #     password: ${{steps.password.outputs.prop}}
 
     # - name: Policy Build
     #   id: policy-build
