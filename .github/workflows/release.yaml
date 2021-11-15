@@ -12,13 +12,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: test
+      id: set-matrix
+      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 
-    - name: Policy Login
-      id: policy-login
-      uses: opcr-io/policy-login-action@v1
-      with:
-        username: ${{  secrets.PUSH_KEY.username }}
-        password: ${{  secrets.PUSH_KEY.password }}
+    - name: echo
+      env:
+        a: ${{fromJson(steps.set-matrix.outputs.matrix.include)}}
+      run: |
+        echo $a
+
+    # - name: Policy Login
+    #   id: policy-login
+    #   uses: opcr-io/policy-login-action@v1
+    #   with:
+    #     username: ${{  secrets.PUSH_KEY.username }}
+    #     password: ${{  secrets.PUSH_KEY.password }}
 
 
     # - name: Policy Build
