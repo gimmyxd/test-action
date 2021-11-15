@@ -12,23 +12,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: test
-      id: set-matrix
-      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 
-    - name: echo
-      env:
-        a: ${{fromJson(steps.set-matrix.outputs.matrix.include)}}
-      run: |
-        echo $a
+    - name: Get secrets
+      id: write_file
+      uses: timheuer/base64-to-file@v1
+      with:
+        fileName: 'secrets.json'
+        encodedString: ${{ secrets.PUSH_KEY }}
 
-    # - name: Policy Login
-    #   id: policy-login
-    #   uses: opcr-io/policy-login-action@v1
-    #   with:
-    #     username: ${{  secrets.PUSH_KEY.username }}
-    #     password: ${{  secrets.PUSH_KEY.password }}
+    - name: get password
+      id: password
+      uses: notiz-dev/github-action-json-property@release
+      with:
+        path: ${{ steps.write_file.outputs.filePath }}
+        prop_path: 'password'
 
+    - name: get username
+      id: username
+      uses: notiz-dev/github-action-json-property@release
+      with:
+        path: ${{ steps.write_file.outputs.filePath }}
+        prop_path: 'username'
+
+    - name: Policy Login
+      id: policy-login
+      uses: opcr-io/policy-login-action@v1
+      with:
+        username: ${{steps.username.outputs.prop}}
+        password: ${{steps.password.outputs.prop}}
 
     # - name: Policy Build
     #   id: policy-build
