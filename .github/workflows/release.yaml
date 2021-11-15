@@ -16,9 +16,12 @@ jobs:
     - name: Policy Login
       id: policy-login
       uses: opcr-io/policy-login-action@v1
+      env:
+        username: ${{  fromJSON(secrets.PUSH_KEY.username) }}
+        password: ${{  fromJSON(secrets.PUSH_KEY.password) }}
       with:
-        username: ${{ fromJSON(secrets.PUSH_KEY.username)}}
-        password: ${{ fromJSON(secrets.PUSH_KEY.password)}}
+        username: ${{ env.username }}
+        password: ${{ env.password }}
 
     # - name: Policy Build
     #   id: policy-build
