@@ -2,9 +2,6 @@ name: policy-build-release
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
     tags:
     - '*'
 
@@ -23,13 +20,15 @@ jobs:
         file: .github/config.yaml
         username: username
         repo: repo
+        server: server
 
     - name: Policy Login
       id: policy-login
       uses: opcr-io/policy-login-action@v1
       with:
         username: ${{ steps.config.outputs.username }}
-        password: ${{ secrets.ASERTO_ENG_PUSH_KEY }}
+        password: ${{ secrets.ASERTO_PUSH_KEY }}
+        server: ${{ steps.config.outputs.server }}
 
     - name: Policy Build
       id: policy-build
