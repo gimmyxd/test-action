@@ -16,11 +16,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Read config
+      id: config
+      uses: CumulusDS/get-yaml-paths-action@v0.1.1
+      with:
+        file: .github/config.yaml
+        username: username
+        repo: repo
+
     - name: Policy Login
       id: policy-login
       uses: opcr-io/policy-login-action@v1
       with:
-        username: gimmyxd
+        username: ${{ steps.config.outputs.username }}
         password: ${{ secrets.ASERTO_ENG_PUSH_KEY }}
 
     - name: Policy Build
