@@ -3,6 +3,8 @@ name: policy-build-release
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
     - '*'
 
@@ -26,7 +28,7 @@ jobs:
       id: policy-login
       uses: opcr-io/policy-login-action@v1
       env:
-        GITHUB_TOKEN: ${{ env.ASERTO_ENG_PUSH_KEY }}
+        GITHUB_TOKEN: ${{ secrets.ASERTO_ENG_PUSH_KEY }}
       with:
         username: ${{ steps.config.outputs.username }}
         password: "$GITHUB_TOKEN"
