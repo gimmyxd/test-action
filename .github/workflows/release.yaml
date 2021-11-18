@@ -23,6 +23,12 @@ jobs:
         repo: repo
         server: server
 
+    - name: Calculate Tag
+      uses: aserto-dev/sver-action@v0.0.14
+      id: "sver"
+      with:
+        next: patch
+
     - name: Policy Login
       id: policy-login
       uses: opcr-io/policy-login-action@v1
