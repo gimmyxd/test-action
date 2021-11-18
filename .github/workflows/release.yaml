@@ -29,11 +29,13 @@ jobs:
       with:
         next: patch
 
-    - name: create policy config
-      uses: "finnp/create-file-action@master"
-      env:
-        FILE_NAME: "~/.config/policy/config.yaml"
-        FILE_DATA: "default_domain: registry.eng.opcr.io"
+    - name: write config
+      uses: DamianReeves/write-file-action
+      with:
+        path: ${{ env.home}}/.config/policy/config.yaml
+        contents: |
+          default_domain: registry.eng.opcr.io
+        write-mode: append
 
     - name: Policy Login
       id: policy-login
