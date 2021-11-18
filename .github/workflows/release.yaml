@@ -30,7 +30,7 @@ jobs:
         next: patch
 
     - name: write config
-      uses: DamianReeves/write-file-action
+      uses: DamianReeves/write-file-action@master
       with:
         path: ${{ env.home}}/.config/policy/config.yaml
         contents: |
